@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  direct_upload_url: MyString
+  upload: 
+  processe: false
+
+two:
+  user_id: 
+  direct_upload_url: MyString
+  upload: 
+  processe: false

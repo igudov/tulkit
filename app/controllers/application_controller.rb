@@ -1,0 +1,19 @@
+class ApplicationController < ActionController::Base
+  before_action :authorize
+
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  protect_from_forgery with: :exception
+
+  protected
+  	def authorize
+  		unless User.find_by(id: session[:user_id])
+  			redirect_to login_url, notice: "Please log in"
+  		end
+  	end
+    def authorize_admin
+      unless User.find_by(id: session[:user_id]).access == 'administrator'
+        redirect_to jobs_url, notice: "Access denied"
+      end
+    end
+end

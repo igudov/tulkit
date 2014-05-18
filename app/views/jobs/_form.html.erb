@@ -1,0 +1,80 @@
+<%= form_for(@job, :html => {:class => "form-horizontal"}) do |f| %>
+  <% if @job.errors.any? %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <strong><%= pluralize(@job.errors.count, "error") %> prohibited this job from being saved:</strong>
+
+      <ul>
+      <% @job.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <fieldset>
+    <!--<legend>Fill out the job details</legend>-->
+    
+    <!--project title-->
+    <div class="field form-group">
+      <%= f.label :title, :class => "col-lg-2 control-label" %>
+      <div class="col-lg-10">
+        <%= f.text_field :title, :class=>"form-control", :placeholder => "Project Title" %>
+      </div>
+    </div>
+
+    <!--project description-->
+    <div class="field form-group">
+      <%= f.label :description, :class => "col-lg-2 control-label" %>
+      <div class="col-lg-10">
+        <%= f.text_area :description, rows: 6, :class=>"form-control", :placeholder => "Please enter as detailed of a description as possible." %>
+      </div>
+    </div> 
+
+    <!--file selector--> 
+    
+
+    <!--category-->
+    <div class="field form-group">
+      <%= f.label :category_id, :class => "col-lg-2 control-label"  %> 
+      <div class="col-lg-10">   
+        <%= f.select :category_id, nested_set_options(Category, @category) {|i| "#{'- -' * i.level} #{i.title}" }, {prompt: 'Pick a Category'}, {:class => "form-control"} %>
+      </div>
+    </div>
+
+    <!--status - active or inactive flag for the job-->
+    <div class="field">      
+        <%= f.hidden_field :status, :value => 1, :class => "checkbox" %>      
+    </div>
+  
+     
+    <!--date and time pickers -->    
+
+    <div class="field form-group">
+      <%= f.label :from, :class => "col-lg-2 control-label" %>     
+      <div class="col-lg-10">        
+        <div class='input-group date' id="datetimepicker8" data-date-format="YYYY-MM-DD hh:mm:ss">            
+          <%= f.text_field :from, :class=>"form-control", :placeholder => "Project start date" %>
+          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+        </div>        
+      </div>
+    </div>     
+    
+    <div class="field form-group">
+      <%= f.label :to, :class => "col-lg-2 control-label"  %>
+      <div class="col-lg-10">
+        <div class='input-group date' id="datetimepicker9" data-date-format="YYYY-MM-DD hh:mm:ss">            
+          <%= f.text_field :to, :class=>"form-control", :placeholder => "Project end date" %>
+          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+        </div>
+      </div>
+    </div>
+
+    <!--submit and back buttons-->
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2">
+        <%= link_to 'Back', jobs_path, :class => "btn btn-default" %>
+        <%= f.submit :class=>"btn btn-primary" %>        
+      </div>
+    </div> 
+  </fieldset> 
+<% end %>

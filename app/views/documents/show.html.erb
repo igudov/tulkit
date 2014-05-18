@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @document.user %>
+</p>
+
+<p>
+  <strong>Direct upload url:</strong>
+  <%= @document.direct_upload_url %>
+</p>
+
+<p>
+  <strong>Upload:</strong>
+  <%= @document.upload %>
+</p>
+
+<p>
+  <strong>Processed:</strong>
+  <%= @document.processed %>
+</p>
+
+<%= link_to 'Edit', edit_document_path(@document) %> |
+<%= link_to 'Back', documents_path %>

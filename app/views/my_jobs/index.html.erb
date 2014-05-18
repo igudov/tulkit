@@ -1,0 +1,56 @@
+<div class="top-header">Listing jobs</div>
+<% if notice %>
+<p id="notice"><%= notice %></p>
+<% end %>
+<table>
+<thead>
+  <!--<tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Image url</th>
+    <th>Category</th>
+    <th>Status</th>
+    <th>From</th>
+    <th>To</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>-->
+</thead>
+<tbody>      
+  <% @my_jobs.each do |job| %>
+    
+      <div class="entry">
+        <tr class="<%= cycle('list_line_odd','list_line_even') %>">
+          <td>
+            <%= image_tag(job.image_url, class: 'list_image') %>
+          </td>
+
+          <td class="list_description">
+            <dl>
+              <dt><%= job.title %></dt>
+              <dd>
+                <%= truncate(strip_tags(job.description), length: 80) %>
+              </dd>
+              <dd>
+                <b>From:</b><%= job.from %>
+              </dd>
+              <dd>
+                <b>To:</b> <%= job.to %>
+              </dd>
+            </dl>
+          </td>     
+                  
+          <!--<td><%= job.category %></td>
+          <td><%= job.status %></td>-->
+          <td class="list_actions">
+            <%= link_to 'Show', job %>
+            <%= link_to 'Edit', edit_job_path(job) %>
+            <%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </td>
+        </tr>
+      </div>
+    <% end %>
+</tbody>
+</table> 
+<div class="bottom-header"><%= link_to 'New Job', new_job_path %></div>

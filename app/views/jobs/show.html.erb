@@ -1,0 +1,273 @@
+<% if session[:user_id] %>
+<% user_access = User.find_by(id: session[:user_id]).access %>
+<% end %>
+
+
+
+<!-- Topic Header -->
+<div class="topic">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <h3><%= @job.title %></h3>
+      </div>
+      <div class="col-sm-8">
+        <ol class="breadcrumb pull-right hidden-xs">
+          <li><a href="/">Home</a></li>
+          <li><%= link_to "Jobs", jobs_path %></li>
+          <li class="active">Project ID: <%= @job.id %></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <% if notice %>
+    <div class="alert alert-dismissable alert-success">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <%= notice %>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="portfolio-slideshow">
+        <!-- Image Carousel -->
+        <div id="portfolio-slideshow" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <li data-target="#portfolio-slideshow" data-slide-to="0" class="active"></li>
+            <!--<li data-target="#portfolio-slideshow" data-slide-to="1"></li>
+            <li data-target="#portfolio-slideshow" data-slide-to="2"></li>-->
+          </ol>
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner">
+            <div class="item active">
+              <img src="<%= @job.image_url %>" class="img-responsive" alt="...">
+            </div>
+            <!--<div class="item">
+              <img src="img/general-2.jpg" class="img-responsive" alt="...">
+            </div>
+            <div class="item">
+              <img src="img/general-3.jpg" class="img-responsive" alt="...">
+            </div>
+            <div class="item">
+              <img src="img/general-4.jpg" class="img-responsive" alt="...">
+            </div>-->
+          </div>
+          <!-- Controls -->
+          <!--<a class="carousel-arrow carousel-arrow-prev" href="#portfolio-slideshow" data-slide="prev">
+            <i class="fa fa-angle-left"></i>
+          </a>
+          <a class="carousel-arrow carousel-arrow-next" href="#portfolio-slideshow" data-slide="next">
+            <i class="fa fa-angle-right"></i>-->
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Job Description -->
+    <div class="col-sm-6">
+      <h3 class="headline second-child"><span><%= @job.title %></span></h3>
+      <p><%= @job.description %></p>
+      <br />
+      <h4 class="headline"><span>Details</span></h4>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td>From<td>
+            <td><%= @job.from %></td>
+          </tr>
+          <tr>
+            <td>To<td>
+            <td><%= @job.to %></td>
+          </tr>
+          <tr>
+            <td>Category<td>
+            <td><%= link_to @job.category.title, @job.category %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div><!-- / job cointainer -->
+    <!-- Questions -->
+    <div class="col-sm-12">
+      <h4 class="headline"><span>Question & Answer</span></h4>      
+      <table class="table">
+        <tbody>
+            <% current_user = User.new %>    
+            <% @questions = Question.where(job_id: @job.id).order(:user_id, created_at: :desc) %>
+            <% @questions.each do |que| %>
+                <tr class="<%= cycle('list_line_odd','list_line_even') %>">          
+                  <td class="list_bidder">
+                    <%= link_to que.user.name, que.user %>
+                  </td>                        
+                  <td class="list_description">
+                    <dl>                  
+                      <dd>
+                        <b>Q:</b> <%= truncate(strip_tags(que.inquiry), length: 80) %>
+                      </dd>
+                      <dd>
+                        <b>A:</b> <%= truncate(strip_tags(que.answer), length: 80) %>
+                      </dd>                  
+                    </dl>
+                  </td>     
+                  <td class="list_actions">                
+                    <% if session[:user_id] %>
+                      <% if user_access == 'administrator' || @job.user_id == session[:user_id] %>                    
+                        <%= link_to 'Answer', edit_question_path(que) %>
+                        <%= link_to 'Delete', que, method: :delete, data: { confirm: 'Are you sure?'} %>
+                      <% end %>
+                    <% end %>
+                  </td>
+                </tr>              
+            <% end %>          
+        </tbody>
+      </table>
+      <% if session[:user_id] %>
+      <% if user_access == 'contractor' %>
+        <% @question = Question.new(:job_id => @job.id, :user_id => session[:user_id]) %>
+        <div>
+          <fieldset>
+            <legend>New Question</legend>
+            <%= render 'questions/form' %>
+          </fieldset>
+        </div>
+      <% end %>
+    <% end %>
+    </div> <!-- / questions -->
+    <!-- Job Description -->
+    <div class="col-sm-12">      
+      <h4 class="headline"><span>Bids</span></h4>
+      <table class="table">
+        <tbody>
+          <% current_user = User.new %>
+          <% @bids = Bid.where(job_id: @job.id).order(:user_id, created_at: :desc) %>
+          <% @bids.each do |bid| %>
+            <% if current_user != bid.user %>
+              <% current_user = bid.user %>              
+              <tr>   
+                <td>
+                  <div class="blog">
+                    <%= image_tag(bid.user.avatar_url) %>
+                    <h3><%= link_to bid.user.name, bid.user %></h3>
+                  </div> 
+                </td>
+                <td>
+                  <%= number_to_currency(bid.price) %>
+                </td>            
+                <td>
+                  <dl>                  
+                    <dd>
+                      <%= truncate(strip_tags(bid.description), length: 80) %>
+                    </dd>                  
+                  </dl>
+                </td>     
+                <td>                
+                  <% if session[:user_id] %>
+                    <% if user_access == 'administrator' || bid.user_id == session[:user_id] %>                    
+                      <%= link_to 'Cancel', bid, method: :delete, data: { confirm: 'Are you sure?'} %>
+                    <% end %>
+                  <% end %>
+                </td>
+              </tr>              
+            <% else %>              
+              <tr>                       
+                <td>              
+                </td>
+                <td>
+                  <%= number_to_currency(bid.price) %>
+                </td>
+                <td>
+                  <dl>                  
+                    <dd>
+                      <%= truncate(strip_tags(bid.description), length: 80) %>
+                    </dd>                  
+                  </dl>
+                </td>     
+                <td>                
+                  <% if session[:user_id] %>
+                    <% if user_access == 'administrator' || bid.user_id == session[:user_id] %>                    
+                      <%= link_to 'Cancel', bid, method: :delete, data: { confirm: 'Are you sure?'} %>
+                    <% end %>
+                  <% end %>
+                </td>
+              </tr>              
+            <% end %>
+          <% end %>
+          
+        </tbody>
+      </table>
+      <% if session[:user_id] %>
+        <% if user_access == 'contractor' %>
+          <% @bid = Bid.new %>
+          <div>
+            <fieldset>
+              <legend>New Bid</legend>
+              <%= render 'bids/form' %>
+            </fieldset>
+          </div>
+        <% end %>
+      <% end %>
+    </div><!-- / job cointainer -->
+  </div> <!-- / .row -->
+  <!--<div class="row">
+    <div class="col-sm-12">
+      <h3 class="headline"><span>Latest Items</span></h3>
+    </div>
+        <div class="col-sm-3">
+          <div class="portfolio-item">
+            <div class="portfolio-thumbnail">
+              <img class="img-responsive" src="img/general-1.jpg" alt="...">
+              <div class="mask">
+                <p>
+                  <a href="img/general-1.jpg" data-lightbox="template_showcase"><i class="fa fa-search-plus fa-2x"></i></a>
+                  <a href="portfolio-item.html"><i class="fa fa-info-circle fa-2x"></i></a>
+                </p>
+              </div>
+            </div>
+          </div> --><!-- / .portfolio-item -->
+        <!--</div>
+        <div class="col-sm-3">
+          <div class="portfolio-item">
+            <div class="portfolio-thumbnail">
+              <img class="img-responsive" src="img/general-2.jpg" alt="...">
+              <div class="mask">
+                <p>
+                  <a href="img/general-2.jpg" data-lightbox="template_showcase"><i class="fa fa-search-plus fa-2x"></i></a>
+                  <a href="portfolio-item.html"><i class="fa fa-info-circle fa-2x"></i></a>
+                </p>
+              </div>
+            </div>
+          </div>--> <!-- / .portfolio-item -->
+        <!--</div>
+        <div class="col-sm-3">
+          <div class="portfolio-item">
+            <div class="portfolio-thumbnail">
+              <img class="img-responsive" src="img/general-3.jpg" alt="...">
+              <div class="mask">
+                <p>
+                  <a href="img/general-3.jpg" data-lightbox="template_showcase"><i class="fa fa-search-plus fa-2x"></i></a>
+                  <a href="portfolio-item.html"><i class="fa fa-info-circle fa-2x"></i></a>
+                </p>
+              </div>
+            </div>
+          </div>--> <!-- / .portfolio-item -->
+        <!--</div>
+        <div class="col-sm-3 isotope-item">
+          <div class="portfolio-item">
+            <div class="portfolio-thumbnail">
+              <img class="img-responsive" src="img/general-4.jpg" alt="...">
+              <div class="mask">
+                <p>
+                  <a href="img/general-2.jpg" data-lightbox="template_showcase"><i class="fa fa-search-plus fa-2x"></i></a>
+                  <a href="portfolio-item.html"><i class="fa fa-info-circle fa-2x"></i></a>
+                </p>
+              </div>
+            </div>
+          </div>--> <!-- / .portfolio-item -->
+        <!--</div>
+  </div>--> <!-- / .row -->
+</div> <!-- / .container -->
+
+
+<%= link_to 'Edit', edit_job_path(@job) %> |
+<%= link_to 'Back', jobs_path %>

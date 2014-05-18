@@ -1,0 +1,36 @@
+<% if notice %>
+<p id="notice"><%= notice %></p>
+<% end %>
+<p>  
+  <%= image_tag @user.avatar.url(:medium) %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @user.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+
+
+
+<p>
+  <strong>Phone:</strong>
+  <%= @user.phone %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @user.bidder %>
+</p>
+
+<p>
+  <strong>Info:</strong>
+  <%= @user.info %>
+</p>
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>

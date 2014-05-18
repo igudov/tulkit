@@ -1,0 +1,196 @@
+
+<!-- Topic Header -->
+      <div class="topic">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-4">
+              <h3>Sign In</h3>
+            </div>
+            <div class="col-sm-8">
+              <ol class="breadcrumb pull-right hidden-xs">
+                <li><a href="/">Home</a></li>
+                <li class="active">Sign In</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% if @user.errors.any? %>
+        <div class="alert alert-dismissable alert-danger">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          <strong><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</strong>
+
+          <ul>
+          <% @user.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="sign-form">
+              <div class="sign-inner">
+                <h3 class="first-child">Fill out user details</h3>
+                <hr>
+                
+                <!--<form role="form">-->
+                <%= form_for(@user) do |f| %>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span>                    
+                    <%= f.text_field :name, :class=>"form-control", :placeholder => "Username", :id => "username", :type =>"username" %>
+                  </div>
+                  <br>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>                    
+                    <%= f.password_field :password, :class => "form-control", :id => "password", :placeholder => "Password", :type =>"password" %>
+                  </div>
+                  <br>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>                    
+                    <%= f.password_field :password_confirmation, :class => "form-control", :id => "password_confirmation", :placeholder => "Password Confirmation", :type =>"password_confirmation" %>
+                  </div>
+                  <br>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+                    <%= f.text_field :email, :class=>"form-control", :placeholder => "Email address", :id => "email", :type => "email" %>
+                  </div>
+                  <br>
+                  <div class="input-group">                    
+                    <%= f.file_field :avatar, :class => "form-control", :id => "avatar", :type => "avatar" %>
+                  </div>
+                  <br>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-phone"></i></span>                    
+                    <%= f.text_field :phone, :class=>"form-control", :placeholder => "+0-000-000-0000", :id => "phone_number", :type => "phone_number" %>
+                  </div>
+                  <div class="input-group">      
+                    <%= f.hidden_field :bidder, :value => 1, :class => "checkbox" %>      
+                  </div>
+                  <br>
+                  <div class="input-group">
+                    <%= f.select :access, User::ACCESS_TYPES, {prompt: 'Pick Type'}, {:class => "form-control", :id => "access", :type => "access"} %>
+                  </div>
+                  <br>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-file-text-o"></i></span>
+                    <%= f.text_area :info, rows: 6, :class=>"form-control", :placeholder => "Please enter as detailed of a description as possible.", :id => "info", :type => "info"  %>
+                  </div>
+
+                 <!--doesn't work yet-->
+                 <div class="checkbox">
+                 <!--   <label>
+                      <input type="checkbox"> Remember me
+                    </label>-->
+                 </div>
+                  <!--<button type="submit" class="btn btn-red">Submit</button>-->
+                  <%= submit_tag "Submit", :class => "btn btn-red", :type => "submit" %>
+                  <hr>
+                <% end %>
+                <!--</form>-->
+
+                <p>Already have an account? <%= link_to 'Login', login_path %></p>
+                <!--<div class="pwd-lost">
+                  <div class="pwd-lost-q show">Lost your password? <a href="#">Click here to recover.</a></div>
+                  <div class="pwd-lost-f hidden">
+                    <p class="text-muted">Enter your email address below and we will send you a link to reset your password.</p>
+                    <form class="form-inline" role="form">
+                      <div class="form-group">
+                        <label class="sr-only" for="email-pwd">Email address</label>
+                        <input type="email" class="form-control" id="email-pwd" placeholder="Enter email">
+                      </div>
+                      <button type="submit" class="btn btn-blue">Send</button>
+                    </form>
+                  </div>
+                </div>--> <!-- / .pwd-lost -->
+              </div>
+            </div>
+          </div>
+        </div> <!-- / .row -->      
+      </div> <!-- / .container -->
+
+
+<%= form_for(@user, :html => {:class => "form-horizontal"}) do |f| %>
+  
+  <fieldset>
+    <legend>Fill out user details</legend>
+    
+    <!--name - username. validate so that there are no spaces! -->
+    <div class="field form-group">
+      <%= f.label :name, :class => "col-lg-2 control-label"  %> 
+      <div class="col-lg-10">   
+        <%= f.text_field :name, :class=>"form-control", :placeholder => "Username"   %>
+      </div>
+    </div>
+    
+    <!--password-->
+    <div class="field form-group">
+      <%= f.label :password, :class => "col-lg-2 control-label" %>
+      <div class="col-lg-10">
+        <%= f.password_field :password, :class=>"form-control", :placeholder => "Password" %>
+      </div>
+    </div>
+    
+    <!--password confirm-->
+    <div class="field form-group">
+      <%= f.label 'Confirm', :class => "col-sm-2 control-label" %>
+      <div class="col-lg-10">
+        <%= f.password_field :password_confirmation, :class=>"form-control", :placeholder => "Password Confirmation" %>
+      </div>
+    </div>
+    
+    <!--email-->
+    <div class="field form-group">
+      <%= f.label :email, :class => "col-lg-2 control-label" %>
+      <div class="col-lg-10">
+        <%= f.text_field :email, :class=>"form-control", :placeholder => "Email address" %>
+      </div>
+    </div>  
+    
+    <!--avatar-->
+    <div class="field form-group">
+      <%= f.label :avatar, :class => "col-lg-2 control-label" %>
+      <div class="col-lg-10">
+        <%= f.file_field :avatar %>
+      </div>
+    </div>
+    
+    <!--phone-->
+    <div class="field form-group">
+      <%= f.label :phone, :class => "col-lg-2 control-label" %>
+      <div class="col-lg-10">
+        <%= f.text_field :phone, :class=>"form-control", :placeholder => "Phone number" %>
+      </div>
+    </div>
+        
+    <!--active status-->
+    <div class="field">      
+        <%= f.hidden_field :bidder, :value => 1, :class => "checkbox" %>      
+    </div>
+
+    <!--access type -->
+    <div class="field form-group">
+      <%= f.label :access, :class => "col-lg-2 control-label" %>
+      <div class="col-lg-10">
+        <%= f.select :access, User::ACCESS_TYPES, {prompt: 'Pick Type'}, {:class => "form-control"} %>
+      </div>
+    </div>
+
+    <!--other info, tagline, or about-->
+    <div class="field form-group">
+      <%= f.label :info, :class => "col-lg-2 control-label" %>
+      <div class="col-lg-10">
+        <%= f.text_area :info, rows: 6, :class=>"form-control", :placeholder => "Please enter as detailed of a description as possible."  %>
+      </div>
+    </div>
+
+    <!--buttons-->
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2">
+        <%= link_to 'Back', jobs_path, :class => "btn btn-default" %>
+        <%= f.submit :class=>"btn btn-primary" %>        
+      </div>
+    </div> 
+  </fieldset>
+<% end %>

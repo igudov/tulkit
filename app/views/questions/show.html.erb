@@ -1,0 +1,30 @@
+<% if notice %>
+<p id="notice"><%= notice %></p>
+<% end %>
+
+<p>
+  <strong>Inquiry:</strong>
+  <%= @question.inquiry %>
+</p>
+
+<p>
+  <strong>Answer:</strong>
+  <%= @question.answer %>
+</p>
+
+<p>
+  <%= image_tag @question.image_url %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= link_to @question.user.name, @question.user %>
+</p>
+
+<p>
+  <strong>Job:</strong>
+  <%= link_to @question.job.title, @question.job %>
+</p>
+
+<%= link_to 'Edit', edit_question_path(@question) %> |
+<%= link_to 'Back', questions_path %>

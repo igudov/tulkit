@@ -1,0 +1,9 @@
+
+<div class="container">
+	<h1>Admin Page</h1>
+
+	<p>We have <%= pluralize(@total_jobs, "job") %>.</p>
+	<p><%= link_to 'Manage Users', users_path %></p>
+	<p><%= link_to 'Manage Categories', categories_path %></p>
+	<p><b>Time: </b><%= Time.now %></p>
+</div>
