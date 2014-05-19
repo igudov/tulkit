@@ -1,5 +1,5 @@
 <%= s3_uploader_form callback_url: documents_url,
-  id: "s3_uploader",
+  id: "s3-uploader",
   callback_param: "document[direct_upload_url]",
   expiration: 24.hours.from_now.utc.iso8601,
   max_file_size: 4.megabytes do %>

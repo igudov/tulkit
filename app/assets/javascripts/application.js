@@ -31,4 +31,11 @@ $(function () {
                $('#datetimepicker8').data("DateTimePicker").setMaxDate(e.date);
             });
         });
-$('.dropdown-toggle').dropdown();
+
+$(function () {
+	$('.dropdown-toggle').dropdown();
+});
+
+$(function (){
+	$("#s3-uploader").S3Uploader()
+}); 
