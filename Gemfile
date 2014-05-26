@@ -59,6 +59,8 @@ gem 'aws-sdk' # S3 API
 
 gem 's3_direct_upload' # direct upload form helper and assets
 
+gem 'geocoder'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

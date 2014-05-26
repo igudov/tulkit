@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140423234252) do
+ActiveRecord::Schema.define(version: 20140526192250) do
 
   create_table "bids", force: true do |t|
     t.text     "description"
@@ -55,13 +55,13 @@ ActiveRecord::Schema.define(version: 20140423234252) do
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
 
   create_table "documents", force: true do |t|
-    t.integer  "user_id",                             null: false
-    t.string   "direct_upload_url",                   null: false
+    t.integer  "user_id"
+    t.string   "direct_upload_url"
     t.string   "upload_file_name"
     t.string   "upload_content_type"
     t.integer  "upload_file_size"
     t.datetime "upload_updated_at"
-    t.boolean  "processed",           default: false, null: false
+    t.boolean  "processed",           default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "job_id"
@@ -81,6 +81,9 @@ ActiveRecord::Schema.define(version: 20140423234252) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "address"
   end
 
   add_index "jobs", ["category_id"], name: "index_jobs_on_category_id"

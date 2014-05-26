@@ -4,6 +4,10 @@ belongs_to :category
 has_many :bids, dependent: :destroy
 has_many :documents, dependent: :destroy
 
+geocoded_by :address   # can also be an IP address
+after_validation :geocode          # auto-fetch coordinates
+
+
 	validates :title, :description, presence: true
 	#validates :title, uniqueness: true
 	#validates :image_url, allow_blank: true, format: {
