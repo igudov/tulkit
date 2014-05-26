@@ -51,11 +51,14 @@ gem 'awesome_nested_set'
 
 gem 'delayed_job_active_record'
 
+gem 'daemons'
+
 gem "paperclip", "~> 4.1"
 
 gem 'aws-sdk' # S3 API
 
 gem 's3_direct_upload' # direct upload form helper and assets
+
 # Use unicorn as the app server
 # gem 'unicorn'
 
@@ -63,8 +66,14 @@ gem 's3_direct_upload' # direct upload form helper and assets
 # gem 'capistrano', group: :development
 
 # Use debugger
-# gem 'debugger', group: [:development, :test]
+gem 'debugger', group: [:development, :test]
+
+group :development do
+  gem 'meta_request'
+end
 
 # Plugin injection in Rails 4
-gem 'rails_12factor'
+group :production do
+	gem 'rails_12factor'
+end
 

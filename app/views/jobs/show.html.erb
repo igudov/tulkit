@@ -36,15 +36,41 @@
         <div id="portfolio-slideshow" class="carousel slide" data-ride="carousel">
           <!-- Indicators -->
           <ol class="carousel-indicators">
-            <li data-target="#portfolio-slideshow" data-slide-to="0" class="active"></li>
-            <!--<li data-target="#portfolio-slideshow" data-slide-to="1"></li>
+            <% if @documents.count > 1 %>
+              <% cnt = 0 %>
+              <% @documents.each do %>
+                <% if cnt == 0 %>
+                  <li data-target="#portfolio-slideshow" data-slide-to="<%= cnt %>" class="active"></li>
+                  <% cnt = cnt + 1 %>                
+                <% else %>
+                  <li data-target="#portfolio-slideshow" data-slide-to="<%= cnt %>"></li>
+                  <% cnt = cnt + 1 %>                
+                <% end %>
+              <% end %>
+            <% end %>    
+            <!--<li data-target="#portfolio-slideshow" data-slide-to="0" class="active"></li>
+            <li data-target="#portfolio-slideshow" data-slide-to="1"></li>
             <li data-target="#portfolio-slideshow" data-slide-to="2"></li>-->
           </ol>
           <!-- Wrapper for slides -->
           <div class="carousel-inner">
-            <div class="item active">
-              <img src="<%= @job.image_url %>" class="img-responsive" alt="...">
-            </div>
+            
+            <% if @documents %>
+              <% count = 0 %>
+              <% @documents.each do |document| %>
+                <% if count==0 %>
+                  <% count = 1 %>
+                  <div class="item active">
+                    <%= image_tag(document.upload.url(:medium), class: 'img-responsive') %>
+                  </div>
+                <% else %>
+                  <% count = count + 1 %>
+                  <div class="item">
+                    <%= image_tag(document.upload.url(:medium), class: 'img-responsive') %>            
+                  </div>
+                <% end %>
+              <% end %>
+            <% end %>            
             <!--<div class="item">
               <img src="img/general-2.jpg" class="img-responsive" alt="...">
             </div>
@@ -56,12 +82,14 @@
             </div>-->
           </div>
           <!-- Controls -->
-          <!--<a class="carousel-arrow carousel-arrow-prev" href="#portfolio-slideshow" data-slide="prev">
-            <i class="fa fa-angle-left"></i>
-          </a>
-          <a class="carousel-arrow carousel-arrow-next" href="#portfolio-slideshow" data-slide="next">
-            <i class="fa fa-angle-right"></i>-->
-          </a>
+          <% if count > 1 %>
+            <a class="carousel-arrow carousel-arrow-prev" href="#portfolio-slideshow" data-slide="prev">
+              <i class="fa fa-angle-left"></i>
+            </a>
+            <a class="carousel-arrow carousel-arrow-next" href="#portfolio-slideshow" data-slide="next">
+              <i class="fa fa-angle-right"></i>
+            </a>
+          <% end %>
         </div>
       </div>
     </div>

@@ -8,6 +8,6 @@ test:
   <<: *defaults
   bucket: "myapp-test"
 production:
-  access_key_id: <%=ENV["AKIAJTES5EVRSQ4QAH3A"]%>
-  secret_access_key: <%=ENV["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"]%>
+  access_key_id: <%= ENV["AKIAJTES5EVRSQ4QAH3A"] %>
+  secret_access_key: <%= ENV["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"] %>
   bucket: "jobsuploadsdev"

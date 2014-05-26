@@ -37,5 +37,6 @@ $(function () {
 });
 
 $(function (){
-	$("#s3-uploader").S3Uploader()
+	$("#s3_uploader").S3Uploader()
 }); 
+

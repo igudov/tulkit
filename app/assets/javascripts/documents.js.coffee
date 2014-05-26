@@ -2,5 +2,5 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 jQuery ->
-  $("#s3-uploader").S3Uploader
+  $("#s3_uploader").S3Uploader
   	path: 'job_images'

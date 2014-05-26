@@ -110,3 +110,27 @@
 		}
 	}
 }*/
+#image_loader {
+/*	position: relative;
+	float: left;
+	bottom: 175px;*/
+}
+#uploads_container {
+	background: #E8F0FF;
+	padding-top: 50px;
+	padding-bottom: 50px;
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-color: #b5cfff;
+	border-style: dashed;
+	border-width: 4px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.upload .progress .bar
+{
+	height: 20px !important;
+}

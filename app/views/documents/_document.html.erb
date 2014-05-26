@@ -1,0 +1,5 @@
+<div id="uploaded_<%=document.id%>">
+  <%= link_to document.upload_file_name, document.upload.url(:medium), target: "_blank" %> &nbsp; <%= link_to "", document, method: :delete, remote: true, class: "glyphicon glyphicon-remove" %><br />
+  <%= number_to_human_size(document.upload_file_size) %><br />
+  <br/> 
+</div>

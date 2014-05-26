@@ -1630,7 +1630,7 @@ table th[class*="col-"] {
   }
 }
 fieldset {
-  padding: 0;
+  /*padding: 0;*/
   margin: 0;
   border: 0;
   min-width: 0;

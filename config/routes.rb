@@ -1,6 +1,6 @@
 Bidder::Application.routes.draw do
   get "home/index"
-  resources :documents
+  resources :documents, only: [:index, :create, :destroy]
 
   resources :questions
 

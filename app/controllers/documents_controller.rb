@@ -1,10 +1,11 @@
 class DocumentsController < ApplicationController
+  skip_before_filter  :verify_authenticity_token
   before_action :set_document, only: [:show, :edit, :update, :destroy]
 
   # GET /documents
   # GET /documents.json
   def index
-    @documents = Document.all
+    #@documents = Document.all
   end
 
   # GET /documents/1
@@ -25,7 +26,14 @@ class DocumentsController < ApplicationController
   # @url /documents
   def create
     current_user = User.find_by(id: session[:user_id])
-    @document = current_user.documents.create(params[:document])  
+    @job = Job.find(params[:job_id])
+
+    
+    @document = @job.documents.create(document_params)
+    
+    @document.user = current_user
+    @document.save
+    #@document.job_id = 0    
     
   end
 
@@ -46,10 +54,9 @@ class DocumentsController < ApplicationController
   # DELETE /documents/1
   # DELETE /documents/1.json
   def destroy
-    @document.destroy
-    respond_to do |format|
-      format.html { redirect_to documents_url }
-      format.json { head :no_content }
+    @document_id=@document.id
+    if @document.user == User.find_by(id: session[:user_id])
+      @document.destroy
     end
   end
 

@@ -1,5 +1,9 @@
+
+
 <%= form_for(@job, :html => {:class => "form-horizontal"}) do |f| %>
+
   <% if @job.errors.any? %>
+
     <div class="alert alert-dismissable alert-danger">
       <button type="button" class="close" data-dismiss="alert">×</button>
       <strong><%= pluralize(@job.errors.count, "error") %> prohibited this job from being saved:</strong>
@@ -12,8 +16,7 @@
     </div>
   <% end %>
   <fieldset>
-    <!--<legend>Fill out the job details</legend>-->
-    
+    <!--<legend>Fill out the job details</legend>-->    
     <!--project title-->
     <div class="field form-group">
       <%= f.label :title, :class => "col-lg-2 control-label" %>
@@ -29,9 +32,8 @@
         <%= f.text_area :description, rows: 6, :class=>"form-control", :placeholder => "Please enter as detailed of a description as possible." %>
       </div>
     </div> 
-
-    <!--file selector--> 
-    
+    <div style="clear: both;"></div>
+   
 
     <!--category-->
     <div class="field form-group">
@@ -45,7 +47,7 @@
     <div class="field">      
         <%= f.hidden_field :status, :value => 1, :class => "checkbox" %>      
     </div>
-  
+    
      
     <!--date and time pickers -->    
 
@@ -73,8 +75,10 @@
     <div class="form-group">
       <div class="col-lg-10 col-lg-offset-2">
         <%= link_to 'Back', jobs_path, :class => "btn btn-default" %>
-        <%= f.submit :class=>"btn btn-primary" %>        
+        <%= f.submit "Save", :class=>"btn btn-primary" %>        
       </div>
     </div> 
-  </fieldset> 
+  </fieldset>
+  
 <% end %>
+

@@ -1,21 +1,27 @@
 class JobsController < ApplicationController
   skip_before_action :authorize, only: [:index, :show]
-  before_action :set_job, only: [:show, :edit, :update, :destroy]  
+  before_action :set_job, only: [:show, :edit, :update, :destroy] 
+
 
   # GET /jobs
   # GET /jobs.json
   def index
-    @jobs = Job.order(updated_at: :desc)
+    @jobs = Job.where(status: true).order(updated_at: :desc)
   end
 
   # GET /jobs/1
   # GET /jobs/1.json
   def show
+    @documents = @job.documents    
   end
 
   # GET /jobs/new
   def new
     @job = Job.new
+    @job.user_id = session[:user_id]
+    @job.save(validate: false)
+
+
   end
 
   # GET /jobs/1/edit
@@ -31,8 +37,11 @@ class JobsController < ApplicationController
   # POST /jobs
   # POST /jobs.json
   def create
-    @job = Job.new(job_params)
+    #@job = Job.new(job_params)
+    @job.update(job_params)
     @job.user_id = session[:user_id]
+    #@job.image_url = @job.documents.take(1).upload.url(:thumb)
+    debugger
 
     respond_to do |format|
       if @job.save
@@ -48,6 +57,10 @@ class JobsController < ApplicationController
   # PATCH/PUT /jobs/1
   # PATCH/PUT /jobs/1.json
   def update
+    first_document = Document.where(job_id: @job.id).take
+    
+    @job.image_url = first_document.upload.url(:thumb)
+    
     if @job.user_id == session[:user_id] || User.find_by(id: session[:user_id]).access == 'administrator'      
       respond_to do |format|
         if @job.update(job_params)
