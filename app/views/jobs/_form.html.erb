@@ -32,16 +32,16 @@
         <%= f.text_area :description, rows: 6, :class=>"form-control", :placeholder => "Please enter as detailed of a description as possible." %>
       </div>
     </div> 
-    <div style="clear: both;"></div>
+    
 
     <!--address using https://github.com/sgruhier/typeahead-addresspicker -->
     <div class="field form-group">
       <%= f.label :address, :class => "col-lg-2 control-label" %>
       <div class="col-lg-10">
-        <%= f.text_field :address, :class=>"form-control", :placeholder => "Start typing your physical address" %>
+        <%= f.text_field :address, :class=>"typeahead form-control", :id=>"address2", :placeholder => "Start typing your physical address" %>
       </div>
     </div> 
-    <div style="clear: both;"></div>
+    
 
     <!--category-->
     <div class="field form-group">
