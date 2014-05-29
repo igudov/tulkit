@@ -86,55 +86,62 @@
               </div>
               <div class="col-sm-12 shopping-cart user-cart">
                 <hr class="arrow-down">
-                <table class="table table-bordered">
+                
+                <table class="table table-striped table-hover ">
                   <thead>
-                    <tr>
-                      <th>3 items to buy</th>
-                      <th>Price</th>
-                      <th>Quantity</th>
-                    </tr>
+                    <!--<tr>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Image url</th>
+                      <th>Category</th>
+                      <th>Status</th>
+                      <th>From</th>
+                      <th>To</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </tr>-->
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <img class="img-responsive" src="img/imac.png" alt="...">
-                        <div class="item">
-                          Product Title #1
-                          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec, placerat enim.</p>
+                  <tbody>    
+                  <% jobs = @user.jobs.where(status: true)  %>
+                    <% if jobs.count > 0 %>
+                    <h3><%= @user.name %>'s active jobs</h3>
+                      <% jobs.each do |job| %>                      
+                        <div class="entry">
+                          <tr>
+                            <td>
+                              <%= image_tag(job.image_url, class: 'list_image img-rounded') %>
+                            </td>
+                            <td class="list_description">
+                              <dl>
+                                <dt><%= link_to job.title, job, :class => "link-primary" %></dt>
+                                <dd>
+                                  <%= truncate(strip_tags(job.description), length: 80) %>
+                                </dd>
+                                <dd class="date">
+                                  <i>Start date in <b><%= distance_of_time_in_words(Time.now, job.from) %></b></i> 
+                                </dd>
+                                <dd class="date">
+                                  <i>End date in <b><%= distance_of_time_in_words(Time.now, job.to) %></b></i> 
+                                </dd>
+                              </dl>
+                            </td>     
+                            <td class="list_actions">                        
+                              <a href="/jobs/<%= job.id %>" class="btn btn-sm btn-blue"><i class="fa fa-info-circle"></i> Show</a>
+                              <% if session[:user_id] %>
+                                <% if @user.access == 'administrator' || job.user_id == session[:user_id] %>
+                                  <%= link_to "Destroy", job, method: :delete, data: { confirm: 'Are you sure?'}, :class => "btn btn-sm btn-red" %>
+                                <% end %>
+                              <% end %>
+                            </td>
+                          </tr>
                         </div>
-                      </td>
-                      <td>$339,00</td>
-                      <td><input type="number" name="pcs" value="1" class="form-control"></td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <img class="img-responsive" src="img/macbook.png" alt="...">
-                        <div class="item">
-                          Product Title #2
-                          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec, placerat enim.</p>
-                        </div>
-                      </td>
-                      <td>$210,00</td>
-                      <td><input type="number" name="pcs" value="1" class="form-control"></td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <img class="img-responsive" src="img/ipad.png" alt="...">
-                        <div class="item">
-                          Product Title #3
-                          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec, placerat enim.</p>
-                        </div>
-                      </td>
-                      <td>$50,00</td>
-                      <td><input type="number" name="pcs" value="1" class="form-control"></td>
-                    </tr>
+                      <% end %>
+                    <% else %>
+                      <p> You don't have any active jobs. </p>
+                    <% end %><!--check for null jobs-->                          
                   </tbody>
                 </table>
-                <ul class="text-right checkout">
-                  <li><strong>Total Price</strong>: $599</li>
-                  <li><strong>Shipping</strong>: Free</li>
-                  <li><a href="#" class="btn btn-blue">Proceed to checkout</a></li>
-                </ul>
               </div>
             </div>
           </div>
