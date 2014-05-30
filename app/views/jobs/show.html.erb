@@ -116,11 +116,18 @@
         </tbody>
       </table>
     </div><!-- / job cointainer -->
+    
+
+
+
+
+
+
+
     <!-- Questions -->
     <div class="col-sm-12">
       <h4 class="headline"><span>Question & Answer</span></h4>      
-      <table class="table">
-        <tbody>
+      
             <% current_user = User.new %>    
             <% @questions = Question.where(job_id: @job.id).order(:user_id, created_at: :desc) %>
             <% @questions.each do |que| %>
@@ -148,16 +155,11 @@
                   </td>
                 </tr>              
             <% end %>          
-        </tbody>
-      </table>
       <% if session[:user_id] %>
       <% if user_access == 'contractor' %>
         <% @question = Question.new(:job_id => @job.id, :user_id => session[:user_id]) %>
-        <div>
-          <fieldset>
-            <legend>New Question</legend>
-            <%= render 'questions/form' %>
-          </fieldset>
+        <div>          
+          <%= render 'questions/ask' %>          
         </div>
       <% end %>
     <% end %>
@@ -228,10 +230,9 @@
         <% if user_access == 'contractor' %>
           <% @bid = Bid.new %>
           <div>
-            <fieldset>
-              <legend>New Bid</legend>
+            
               <%= render 'bids/form' %>
-            </fieldset>
+            
           </div>
         <% end %>
       <% end %>
