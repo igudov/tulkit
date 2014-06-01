@@ -4,8 +4,7 @@ ruby '1.9.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
 
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+
 
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.17.1'
@@ -72,6 +71,8 @@ gem 'debugger', group: [:development, :test]
 
 group :development do
   gem 'meta_request'
+  # Use sqlite3 as the database for Active Record
+	gem 'sqlite3'
 end
 
 # Plugin injection in Rails 4
