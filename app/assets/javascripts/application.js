@@ -18,6 +18,7 @@
 //= require bootstrap-datetimepicker
 //= require turbolinks
 //= require s3_direct_upload
+//= require jquery.numeric
 //= require_tree .
 //= require_self
 

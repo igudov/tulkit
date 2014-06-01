@@ -13,12 +13,12 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    unless @user.id == session[:user_id] || User.find_by(id: session[:user_id]).access == 'administrator'
-      respond_to do |format|
-        format.html {redirect_to jobs_url, notice: "Access denied"}
-        format.json {head :no_content}
-      end
-    end
+    #unless @user.id == session[:user_id] || @user.access == 'contractor' || User.find_by(id: session[:user_id]).access == 'administrator'
+    #  respond_to do |format|
+    #    format.html {redirect_to jobs_url, notice: "Access denied"}
+    #    format.json {head :no_content}
+    #  end
+    #end
   end
 
   # GET /users/new

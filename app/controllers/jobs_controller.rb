@@ -41,7 +41,7 @@ class JobsController < ApplicationController
     @job.update(job_params)
     @job.user_id = session[:user_id]
     #@job.image_url = @job.documents.take(1).upload.url(:thumb)
-    debugger
+    #debugger
 
     respond_to do |format|
       if @job.save

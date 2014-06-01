@@ -131,40 +131,103 @@
             <% current_user = User.new %>    
             <% @questions = Question.where(job_id: @job.id).order(:user_id, created_at: :desc) %>
             <% @questions.each do |que| %>
-                <tr class="<%= cycle('list_line_odd','list_line_even') %>">          
-                  <td class="list_bidder">
-                    <%= link_to que.user.name, que.user %>
-                  </td>                        
-                  <td class="list_description">
-                    <dl>                  
-                      <dd>
-                        <b>Q:</b> <%= truncate(strip_tags(que.inquiry), length: 80) %>
-                      </dd>
-                      <dd>
-                        <b>A:</b> <%= truncate(strip_tags(que.answer), length: 80) %>
-                      </dd>                  
-                    </dl>
-                  </td>     
-                  <td class="list_actions">                
-                    <% if session[:user_id] %>
-                      <% if user_access == 'administrator' || @job.user_id == session[:user_id] %>                    
-                        <%= link_to 'Answer', edit_question_path(que) %>
-                        <%= link_to 'Delete', que, method: :delete, data: { confirm: 'Are you sure?'} %>
+              <div class="row"><!--start row-->
+                <div class="col-sm-9"><b><%= link_to que.user.name, que.user %>'s Q:</b> <%= strip_tags(que.inquiry) %></div>
+                <div class="col-sm-3" style="float: right;">                        
+                  
+                  <% if session[:user_id] %>
+                    <% if que.user_id == session[:user_id] %>                            
+                      <button class="btn btn-primary btn-xs" data-toggle="modal" href="#AskModal<%=que.id%>">
+                      Edit Question
+                      </button>
+                      <%= render 'questions/ask', :question => que %>                                
+                    <% end %>                      
+                    <% if @job.user_id == session[:user_id] || user_access == 'administrator' %>                    
+                      <% if (que.answer.nil? || que.answer == "") %>
+                        
+                        <button class="btn btn-warning btn-xs" data-toggle="modal" href="#AnswerModal<%=que.id%>">
+                          Answer
+                        </button>
+                        <%= render 'questions/answer', :answer => que %> 
+                      <% else %>
+                        
+                        <button class="btn btn-success btn-xs" data-toggle="modal" href="#AnswerModal<%=que.id%>">
+                          Edit Answer
+                        </button>
+                        <%= render 'questions/answer', :answer => que %> 
                       <% end %>
                     <% end %>
-                  </td>
-                </tr>              
-            <% end %>          
+                    <% if @job.user_id == session[:user_id] || user_access == 'administrator' || que.user_id == session[:user_id] %>
+                      <%= link_to 'Delete', que, method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-danger btn-xs" %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div><!--end row-->
+
+
+              <% if not (que.answer.nil? || que.answer == "") %>
+              <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-11">
+                  <b>A:</b> <%= strip_tags(que.answer) %>
+                </div>
+              </div>
+              <% end %>
+              <br/>
+          <div style="clear: both"></div>              
+        <% end %>          
       <% if session[:user_id] %>
       <% if user_access == 'contractor' %>
-        <% @question = Question.new(:job_id => @job.id, :user_id => session[:user_id]) %>
+        <% que_new = Question.new(:job_id => @job.id, :user_id => session[:user_id]) %>
         <div>          
-          <%= render 'questions/ask' %>          
+          <!-- Button trigger modal -->
+          <div class="row">
+            <div class="col-md-2 col-md-offset-5">
+              <button class="btn btn-primary btn-lg" data-toggle="modal" href="#AskModal">
+              Ask A Question
+              </button>        
+            </div>
+          </div>  
+          <%= render 'questions/ask',  :question => que_new %>          
         </div>
       <% end %>
     <% end %>
     </div> <!-- / questions -->
-    <!-- Job Description -->
+    
+    <!-- Estimate Description -->
+    <div class="col-sm-12">      
+      <h4 class="headline"><span>Estimates</span></h4>
+      
+      <% @bids = Bid.where(job_id: @job.id).order(:user_id, created_at: :desc) %>
+
+      <% average_price = @bids.map(&:price).inject(0, :+) %>
+      <div class="row">
+        <div class="col-md-4 col-md-offset-5  ">
+          <h5>Average Estimate for this job: <b><%= number_to_currency(average_price) %></b></h5>
+        </div>
+      </div>
+
+      <% @bids.each do |bid| %>
+        
+      <% end %>
+          
+      
+      <% if session[:user_id] %>
+        <% if user_access == 'contractor' %>
+          <% @bid = Bid.new %>
+          <div>
+            
+              <%= render 'bids/form' %>
+            
+          </div>
+        <% end %>
+      <% end %>
+    </div><!-- / estimate cointainer -->
+
+
+
+
+    <!-- Estimate Description -->
     <div class="col-sm-12">      
       <h4 class="headline"><span>Bids</span></h4>
       <table class="table">
@@ -177,7 +240,7 @@
               <tr>   
                 <td>
                   <div class="blog">
-                    <%= image_tag(bid.user.avatar_url) %>
+                    <%= image_tag(bid.user.avatar.url(:thumb)) %>
                     <h3><%= link_to bid.user.name, bid.user %></h3>
                   </div> 
                 </td>
@@ -187,7 +250,7 @@
                 <td>
                   <dl>                  
                     <dd>
-                      <%= truncate(strip_tags(bid.description), length: 80) %>
+                      <%= strip_tags(bid.description) %>
                     </dd>                  
                   </dl>
                 </td>     
@@ -236,67 +299,26 @@
           </div>
         <% end %>
       <% end %>
-    </div><!-- / job cointainer -->
+    </div><!-- / estimate cointainer -->
   </div> <!-- / .row -->
-  <!--<div class="row">
-    <div class="col-sm-12">
-      <h3 class="headline"><span>Latest Items</span></h3>
-    </div>
-        <div class="col-sm-3">
-          <div class="portfolio-item">
-            <div class="portfolio-thumbnail">
-              <img class="img-responsive" src="img/general-1.jpg" alt="...">
-              <div class="mask">
-                <p>
-                  <a href="img/general-1.jpg" data-lightbox="template_showcase"><i class="fa fa-search-plus fa-2x"></i></a>
-                  <a href="portfolio-item.html"><i class="fa fa-info-circle fa-2x"></i></a>
-                </p>
-              </div>
-            </div>
-          </div> --><!-- / .portfolio-item -->
-        <!--</div>
-        <div class="col-sm-3">
-          <div class="portfolio-item">
-            <div class="portfolio-thumbnail">
-              <img class="img-responsive" src="img/general-2.jpg" alt="...">
-              <div class="mask">
-                <p>
-                  <a href="img/general-2.jpg" data-lightbox="template_showcase"><i class="fa fa-search-plus fa-2x"></i></a>
-                  <a href="portfolio-item.html"><i class="fa fa-info-circle fa-2x"></i></a>
-                </p>
-              </div>
-            </div>
-          </div>--> <!-- / .portfolio-item -->
-        <!--</div>
-        <div class="col-sm-3">
-          <div class="portfolio-item">
-            <div class="portfolio-thumbnail">
-              <img class="img-responsive" src="img/general-3.jpg" alt="...">
-              <div class="mask">
-                <p>
-                  <a href="img/general-3.jpg" data-lightbox="template_showcase"><i class="fa fa-search-plus fa-2x"></i></a>
-                  <a href="portfolio-item.html"><i class="fa fa-info-circle fa-2x"></i></a>
-                </p>
-              </div>
-            </div>
-          </div>--> <!-- / .portfolio-item -->
-        <!--</div>
-        <div class="col-sm-3 isotope-item">
-          <div class="portfolio-item">
-            <div class="portfolio-thumbnail">
-              <img class="img-responsive" src="img/general-4.jpg" alt="...">
-              <div class="mask">
-                <p>
-                  <a href="img/general-2.jpg" data-lightbox="template_showcase"><i class="fa fa-search-plus fa-2x"></i></a>
-                  <a href="portfolio-item.html"><i class="fa fa-info-circle fa-2x"></i></a>
-                </p>
-              </div>
-            </div>
-          </div>--> <!-- / .portfolio-item -->
-        <!--</div>
-  </div>--> <!-- / .row -->
+  
 </div> <!-- / .container -->
 
 
 <%= link_to 'Edit', edit_job_path(@job) %> |
 <%= link_to 'Back', jobs_path %>
+<%= javascript_include_tag "jquery.numeric.js", "data-turbolinks-track" => true %>
+
+<script type="text/javascript">
+  $(".numeric").numeric();
+  $(".integer").numeric(false, function() { alert("Integers only"); this.value = ""; this.focus(); });
+  $(".positive").numeric({ negative: false }, function() { alert("No negative values"); this.value = ""; this.focus(); });
+  $(".positive-integer").numeric({ decimal: false, negative: false }, function() { alert("Positive integers only"); this.value = ""; this.focus(); });
+  $("#remove").click(
+    function(e)
+    {
+      e.preventDefault();
+      $(".numeric,.integer,.positive").removeNumeric();
+    }
+  );
+  </script>

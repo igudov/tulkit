@@ -22,7 +22,7 @@ class QuestionsController < ApplicationController
   def edit
     unless @question.job.user_id == session[:user_id] || User.find_by(id: session[:user_id]).access == 'administrator'
       respond_to do |format|
-        format.html {redirect_to jobs_url, notice: "Access denied"}
+        format.html {redirect_to @question.job, notice: "Access denied"}
         format.json {head :no_content}
       end
     end
@@ -35,7 +35,7 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.save
-        format.html { redirect_to @question, notice: 'Question was successfully created.' }
+        format.html { redirect_to @question.job, notice: 'Question was successfully created.' }
         format.json { render action: 'show', status: :created, location: @question }
       else
         format.html { render action: 'new' }
@@ -49,7 +49,7 @@ class QuestionsController < ApplicationController
   def update
     respond_to do |format|
       if @question.update(question_params)
-        format.html { redirect_to @question, notice: 'Question was successfully updated.' }
+        format.html { redirect_to @question.job, notice: 'Question was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

@@ -1,7 +1,12 @@
 <!-- Button trigger modal -->
-<button class="btn btn-primary btn-lg" data-toggle="modal" href="#BidModal">
-Ask A Question
-</button>
+<div class="row">
+  <div class="col-md-2 col-md-offset-5">
+    <button class="btn btn-primary btn-lg" data-toggle="modal" href="#BidModal">
+    Provide A Quote
+    </button>      
+  </div>
+</div>  
+
 
 <!-- Modal -->
 <div class="modal fade" id="BidModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -9,50 +14,52 @@ Ask A Question
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Provide An Estimate</h4>
+        <h4 class="modal-title" id="myModalLabel">Job quote</h4>
       </div>
-      <div class="modal-body">
+      <%= form_for(@bid) do |f| %>
+        <div class="modal-body">
         
 
-      <%= form_for(@bid) do |f| %>
-        <% if @bid.errors.any? %>
-          <div id="error_explanation">
-            <h2><%= pluralize(@bid.errors.count, "error") %> prohibited this bid from being saved:</h2>
-
-            <ul>
-            <% @bid.errors.full_messages.each do |msg| %>
-              <li><%= msg %></li>
-            <% end %>
-            </ul>
-          </div>
-        <% end %>
-        <fieldset>
-          <div class="field">
-            <%= f.label :description %><br>
-            <%= f.text_area :description %>
-          </div>
-          <div class="field">
-            <%= f.label :price %><br>
-            <%= f.text_field :price %>
-          </div>
-          <div class="field">
-            <%= f.label :image_url %><br>
-            <%= f.text_field :image_url %>
-          </div>
-          <div class="field">
-            <%= f.hidden_field :job_id, :value => @job.id %>
-          </div>
-          <div class="actions">
-            <%= f.submit 'Bid' %>
-            <%= f.submit "Reset", :type => "reset" %>
-          </div>
-        </fieldset>
-      <% end %>
-
-
-
-      </div>
       
+          <% if @bid.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@bid.errors.count, "error") %> prohibited this quote from being saved:</h2>
+
+              <ul>
+              <% @bid.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+              </ul>
+            </div>
+          <% end %>
+          
+            <div class="field">
+              <%= f.label :description %><br>
+              <%= f.text_area :description, rows: 6, style: "width: 100%" %>
+            </div>
+            <div class="field">
+              <%= f.label "Total estimated price in Canadian Dollars" %><br>
+              <%= f.text_field :price, style: "width: 100%", class: "positive" %>
+            </div>
+
+            <div class="field">
+              <%= f.hidden_field :job_id, :value => @job.id %>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <div class="actions">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <%= f.submit "Reset", :type => "reset", class: "btn btn-default" %>
+              <%= f.submit 'Submit', class: "btn btn-primary" %>
+              
+            </div>     
+      
+
+
+
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

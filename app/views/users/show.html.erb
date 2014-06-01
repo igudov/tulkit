@@ -105,7 +105,7 @@
                   <tbody>    
                   <% jobs = @user.jobs.where(status: true)  %>
                     <% if jobs.count > 0 %>
-                    <h3><%= @user.name %>'s active jobs</h3>
+                      <h3><%= @user.name %>'s active jobs</h3>
                       <% jobs.each do |job| %>                      
                         <div class="entry">
                           <tr>
@@ -139,7 +139,10 @@
                       <% end %>
                     <% else %>
                       <p> You don't have any active jobs. </p>
-                    <% end %><!--check for null jobs-->                          
+                    <% end %><!--check for null jobs-->    
+
+                    <!--insert a section for bids -->
+
                   </tbody>
                 </table>
               </div>
