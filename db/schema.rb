@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140526192250) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "bids", force: true do |t|
     t.text     "description"
     t.decimal  "price",       precision: 8, scale: 0
@@ -23,8 +26,8 @@ ActiveRecord::Schema.define(version: 20140526192250) do
     t.datetime "updated_at"
   end
 
-  add_index "bids", ["job_id"], name: "index_bids_on_job_id"
-  add_index "bids", ["user_id"], name: "index_bids_on_user_id"
+  add_index "bids", ["job_id"], name: "index_bids_on_job_id", using: :btree
+  add_index "bids", ["user_id"], name: "index_bids_on_user_id", using: :btree
 
   create_table "categories", force: true do |t|
     t.string   "title"
@@ -36,7 +39,7 @@ ActiveRecord::Schema.define(version: 20140526192250) do
     t.string   "font"
   end
 
-  add_index "categories", ["parent_id"], name: "index_categories_on_parent_id"
+  add_index "categories", ["parent_id"], name: "index_categories_on_parent_id", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -52,23 +55,23 @@ ActiveRecord::Schema.define(version: 20140526192250) do
     t.datetime "updated_at"
   end
 
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "documents", force: true do |t|
-    t.integer  "user_id"
-    t.string   "direct_upload_url"
+    t.integer  "user_id",                             null: false
+    t.string   "direct_upload_url",                   null: false
     t.string   "upload_file_name"
     t.string   "upload_content_type"
     t.integer  "upload_file_size"
     t.datetime "upload_updated_at"
-    t.boolean  "processed",           default: false
+    t.boolean  "processed",           default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "job_id"
   end
 
-  add_index "documents", ["job_id"], name: "index_documents_on_job_id"
-  add_index "documents", ["user_id"], name: "index_documents_on_user_id"
+  add_index "documents", ["job_id"], name: "index_documents_on_job_id", using: :btree
+  add_index "documents", ["user_id"], name: "index_documents_on_user_id", using: :btree
 
   create_table "jobs", force: true do |t|
     t.string   "title"
@@ -86,8 +89,8 @@ ActiveRecord::Schema.define(version: 20140526192250) do
     t.string   "address"
   end
 
-  add_index "jobs", ["category_id"], name: "index_jobs_on_category_id"
-  add_index "jobs", ["user_id"], name: "index_jobs_on_user_id"
+  add_index "jobs", ["category_id"], name: "index_jobs_on_category_id", using: :btree
+  add_index "jobs", ["user_id"], name: "index_jobs_on_user_id", using: :btree
 
   create_table "questions", force: true do |t|
     t.text     "inquiry"
@@ -99,8 +102,8 @@ ActiveRecord::Schema.define(version: 20140526192250) do
     t.datetime "updated_at"
   end
 
-  add_index "questions", ["job_id"], name: "index_questions_on_job_id"
-  add_index "questions", ["user_id"], name: "index_questions_on_user_id"
+  add_index "questions", ["job_id"], name: "index_questions_on_job_id", using: :btree
+  add_index "questions", ["user_id"], name: "index_questions_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"

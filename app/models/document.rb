@@ -104,6 +104,7 @@ class Document < ActiveRecord::Base
     self.upload_file_size     = direct_upload_head.content_length
     self.upload_content_type  = direct_upload_head.content_type
     self.upload_updated_at    = direct_upload_head.last_modified
+    
   rescue AWS::S3::Errors::NoSuchKey => e
     tries -= 1
     if tries > 0

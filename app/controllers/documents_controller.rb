@@ -29,7 +29,10 @@ class DocumentsController < ApplicationController
     @job = Job.find(params[:job_id])
 
     params[:user_id] = session[:user_id]
-    @document = @job.documents.create(document_params)
+    
+    #@document = @job.documents.create(document_params)
+    @document = @job.documents.build(document_params)
+    @document.user_id = session[:user_id]
     
     
     @document.save
