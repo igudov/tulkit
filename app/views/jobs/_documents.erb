@@ -1,4 +1,4 @@
-<%= s3_uploader_form callback_url: documents_url(:job_id => @job.id),
+<%= s3_uploader_form callback_url: documents_url(:job_id => @job.id, :user_id => session[:user_id]),
     id: "s3_uploader",
     callback_param: "document[direct_upload_url]",
     expiration: 24.hours.from_now.utc.iso8601,
