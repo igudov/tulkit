@@ -25,13 +25,13 @@ class DocumentsController < ApplicationController
   # @http_method XHR POST
   # @url /documents
   def create
-    current_user = User.find_by(id: session[:user_id])
+    #current_user = User.find_by(id: session[:user_id])
     @job = Job.find(params[:job_id])
 
-    
+    params[:user_id] = session[:user_id]
     @document = @job.documents.create(document_params)
     
-    @document.user = current_user
+    
     @document.save
     #@document.job_id = 0    
     

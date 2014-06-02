@@ -38,8 +38,9 @@ class JobsController < ApplicationController
   # POST /jobs.json
   def create
     #@job = Job.new(job_params)
+    params[:user_id] = session[:user_id]
     @job.update(job_params)
-    @job.user_id = session[:user_id]
+    
     #@job.image_url = @job.documents.take(1).upload.url(:thumb)
     #debugger
 
