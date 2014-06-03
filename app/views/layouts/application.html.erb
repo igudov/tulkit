@@ -10,6 +10,11 @@
 	<!-- Resources -->
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700' rel='stylesheet' type='text/css'>
+  <script data-turbolinks-track="true" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js" asynch></script>
+  <script data-turbolinks-track="true" src="http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places" asynch></script>
+
+  
+  
 
 
 	
@@ -163,9 +168,7 @@
         </div>
       </div>  <!-- / .row -->
     </div> <!-- / .container -->
-  <%= javascript_include_tag "application", "scrolltopcontrol", "lightbox-2.6.min", "custom", "ui-elements", "index", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "typeahead.js", "typeahead-addresspicker.js", "data-turbolinks-track" => true %>
-  
+  <%= javascript_include_tag "application", "scrolltopcontrol", "lightbox-2.6.min", "custom", "ui-elements", "index", "typeahead.js", "typeahead-addresspicker.js", "data-turbolinks-track" => true %>  
   <%= csrf_meta_tags %> 
 </body>
 </html>

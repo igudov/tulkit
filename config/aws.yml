@@ -1,6 +1,6 @@
 defaults: &defaults
-  access_key_id: "AKIAJTES5EVRSQ4QAH3A"
-  secret_access_key: "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"
+  access_key_id: "AKIAIH3TTESUDNS6A5BQ"
+  secret_access_key: "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"
 development:
   <<: *defaults
   bucket: "jobsuploadsdev"
@@ -8,6 +8,6 @@ test:
   <<: *defaults
   bucket: "myapp-test"
 production:
-  access_key_id: "AKIAJTES5EVRSQ4QAH3A"
-  secret_access_key: "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"
+  access_key_id: "AKIAIH3TTESUDNS6A5BQ"
+  secret_access_key: "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"
   bucket: "jobsuploadsdev"
